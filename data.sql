@@ -11,3 +11,22 @@ INSERT INTO animals (id, name, date_of_birth, escape_attempts, neutered, weight_
 INSERT INTO animals (id, name, date_of_birth, escape_attempts, neutered, weight_kg) VALUES (8, 'Angemon',  '12-06-2005', 1, true, -45.00 );
 INSERT INTO animals (id, name, date_of_birth, escape_attempts, neutered, weight_kg) VALUES (9, 'Boarmon',  '07-06-2005', 7, true, 20.40 );
 INSERT INTO animals (id, name, date_of_birth, escape_attempts, neutered, weight_kg) VALUES (10, 'Blossom',  '13-10-1998', 3, true, 17.00 );
+
+/* INSIDE TRANSACTION */
+UPDATE animals
+SET species = 'unspecified';
+ROLLBACK;
+
+UPDATE animals
+SET species = 'digimon'
+WHERE name LIKE '%mon';
+
+UPDATE animals
+SET species = 'pokemon'
+WHERE species != ('digimon');
+
+COMMIT;
+
+
+DELETE FROM animals
+ROLLBACK;
