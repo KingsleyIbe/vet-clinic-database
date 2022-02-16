@@ -12,21 +12,43 @@ INSERT INTO animals (id, name, date_of_birth, escape_attempts, neutered, weight_
 INSERT INTO animals (id, name, date_of_birth, escape_attempts, neutered, weight_kg) VALUES (9, 'Boarmon',  '07-06-2005', 7, true, 20.40 );
 INSERT INTO animals (id, name, date_of_birth, escape_attempts, neutered, weight_kg) VALUES (10, 'Blossom',  '13-10-1998', 3, true, 17.00 );
 
-/* INSIDE TRANSACTION */
+/* WORKING WITH TRANSACTION */
+/* UPDATING SPECIES COLUMN WITH 'unspecified' WITH A ROLLBACK TO REVERT PREVIOUS STATE*/
 UPDATE animals
 SET species = 'unspecified';
 ROLLBACK;
 
+/* UPDATING SPECIES COLUMN WITH 'digimon' FOR ALL ANIMALS THAT ENDS WITH 'mon' */
 UPDATE animals
 SET species = 'digimon'
 WHERE name LIKE '%mon';
 
+/* UPDATING SPECIES COLUMN WITH 'pokemon' FOR ALL ANIMALS WITHOUT 'digimon' */
 UPDATE animals
 SET species = 'pokemon'
 WHERE species != ('digimon');
 
+/* COMMITTING TRANSACTION */
 COMMIT;
 
-
+/* DELETING ALL RECORDS FROM TABLE AND ROLLING RECORDS BACK TO REVERT PREVIOUS STATE*/
 DELETE FROM animals
 ROLLBACK;
+
+/* DELETING ALL ANIMALS BORN AFTER 'Jan 1st, 2022' */
+DELETE FROM animals WHERE date_of_birth > '01-01-2022';
+
+/* CREATING A SAVEPOINT FOR TRANSACTION */
+SAVEPOINT SP1;
+
+/* UPDATING ALL ANIMALS' WEIGHT TO BE THEIR INITIAL WEIGHT MULTIPLIED BY -1 */
+UPDATE animals SET weight_kg = weight_kg * -1;
+
+/* ROLLING BACK TO SAVEPOINT */
+ROLLBACK TO SP1;
+
+/* UPDATING ALL ANIMALS' WEIGHTS THAT ARE NEGATIVE TO BE THEIR INITIAL WEIGHT MULTIPLIED BY -1*/
+UPDATE animals SET weight_kg = weight_kg * -1 WHERE weight_kg < 0;
+
+/* COMMITTING TRANSACTION TO SAVE UPDATE */
+COMMIT;
