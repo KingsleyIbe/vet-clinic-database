@@ -1,7 +1,7 @@
 /* Create a database vet_clinic  */
 CREATE DATABASE vet_clinic;
 
-/* CREATED TABLE */
+/* CREATED TABLE 'animals' */
 CREATE TABLE animals( 
 id INT PRIMARY KEY NOT NULL, 
 name            TEXT       NOT NULL, 
@@ -19,7 +19,7 @@ ADD COLUMN species VARCHAR(255);
 CREATE TABLE owners(
    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
    full_name VARCHAR (250) NOT NULL,
-   age INT NOT NULL
+   age INT NOT NULL,
 );
 
 /* NEW TABLE "species" */
@@ -53,3 +53,38 @@ ALTER TABLE animals
   ADD CONSTRAINT fk_owner
   FOREIGN KEY (owner_id)
   REFERENCES owners (id);
+
+/* NEW TABLE "vets" */
+CREATE TABLE vets(
+   id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+   name VARCHAR (250) NOT NULL,
+   age INT NOT NULL,
+   date_of_graduation DATE NOT NULL
+);
+
+/* Create a "join table" called specializations to handle the relationship between species and vets */
+CREATE TABLE specializations(
+  id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  species_id INT,
+  vets_id INT,
+  CONSTRAINT fk_special_species 
+  FOREIGN KEY (species_id)
+  REFERENCES species (id),
+  CONSTRAINT fk_special_vets 
+  FOREIGN KEY (vets_id)
+  REFERENCES vets (id),
+);
+
+/* Create a "join table" called visits to handle the relationship between animals and vets */
+CREATE TABLE visits(
+  id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  animal_id INT,
+  vets_id INT,
+  date_of_visit DATE,
+  CONSTRAINT fk_visit_animal 
+  FOREIGN KEY (animal_id)
+  REFERENCES animals (id),
+  CONSTRAINT fk_visit_vets 
+  FOREIGN KEY (vets_id)
+  REFERENCES vets (id),
+);
