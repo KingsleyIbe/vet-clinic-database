@@ -38,8 +38,15 @@ ALTER TABLE animals
   DROP COLUMN species;
 
 /* ADD COLUMN 'species_id' WHICH IS A FOREIGN KEY REFERENCING 'species' TABLE */
-ALTER TABLE animals ADD FOREIGN KEY (species_id) REFERENCES species (id);
-ALTER TABLE animals DROP CONSTRAINT FOREIGN KEY;
+ALTER TABLE animals
+  ADD species_id INT,
+  ADD CONSTRAINT fk_species
+  FOREIGN KEY (species_id)
+  REFERENCES species (id);
 
 /* ADD COLUMN 'owners_id' WHICH IS A FOREIGN KEY REFERENCING 'owners' TABLE */
-ALTER TABLE animals ADD FOREIGN KEY (owners_id) REFERENCES owners (id);
+ALTER TABLE owners
+  ADD owner_id INT,
+  ADD CONSTRAINT fk_owner
+  FOREIGN KEY (owner_id)
+  REFERENCES owners (id);
