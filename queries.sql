@@ -204,12 +204,12 @@ SELECT v.name
   COUNT(s.name) 
   FROM visits vs 
   LEFT JOIN animals a 
-  ON a.id = vs.animal_id 
-  LEFT JOIN vets v ON v.id = vs.vets_id 
+    ON a.id = vs.animal_id 
+  LEFT JOIN vets v 
+    ON v.id = vs.vets_id 
   LEFT JOIN species s
     ON s.id = a.species_id
   WHERE v.name = 'Maisy Smith'
   GROUP BY v.name, s.name
   ORDER BY COUNT DESC
-  LIMIT 1
-;
+  LIMIT 1;
