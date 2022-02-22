@@ -58,7 +58,7 @@ ALTER TABLE animals
 CREATE TABLE vets(
    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
    name VARCHAR (250) NOT NULL,
-   age INT NOT NULL,
+   age INT,
    date_of_graduation DATE NOT NULL
 );
 
@@ -86,5 +86,14 @@ CREATE TABLE visits(
   REFERENCES animals (id),
   CONSTRAINT fk_visit_vets 
   FOREIGN KEY (vets_id)
-  REFERENCES vets (id),
+  REFERENCES vets (id)
 );
+
+-- Add an email column to your owners table
+ALTER TABLE owners 
+  ADD COLUMN email VARCHAR(120);
+
+-- commands to create indexes for the visits and owners table
+CREATE INDEX animals_id_asc ON visits(animal_id asc);
+CREATE INDEX vet_id_asc ON visits(vet_id asc);
+CREATE INDEX email_asc ON owners(email asc);
