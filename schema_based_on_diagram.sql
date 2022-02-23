@@ -1,9 +1,11 @@
+-- CREATED A NEW TABLE 'patients'
 CREATE TABLE patients(
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name VARCHAR (250),
     date_of_birth DATE
 );
 
+-- CREATED A NEW TABLE 'invoice'
 CREATE TABLE invoices(
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     total_amount decimal,
@@ -15,6 +17,7 @@ CREATE TABLE invoices(
     REFERENCES medical_histories (id),
 );
 
+-- CREATED A NEW TABLE 'medical_histories'
 CREATE TABLE medical_histories(
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     admitted_at timestamp,
@@ -25,6 +28,7 @@ CREATE TABLE medical_histories(
     REFERENCES patients (id)
 );
 
+-- CREATED A NEW TABLE 'invoices_items'
 CREATE TABLE invoices_items(
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     unit_price decimal,
@@ -40,12 +44,14 @@ CREATE TABLE invoices_items(
     REFERENCES treatments (id),
 );
 
+-- CREATED A NEW TABLE 'treatments'
 CREATE TABLE treatments(
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     type VARCHAR(255),
     name VARCHAR(255),
 ); 
 
+-- CREATED A NEW TABLE 'medical_histories_treatments'
 CREATE TABLE medical_histories_treatments(
     medical_histories_id int,
     treatments_id int,
@@ -55,6 +61,7 @@ CREATE TABLE medical_histories_treatments(
     REFERENCES treatments (id),
 );
 
+-- CREATED A NEW TABLE INDEXES
 CREATE INDEX medical_histories_patient_index
     ON medical_histories (patient_id);
 CREATE INDEX invoice_medical_history_index
